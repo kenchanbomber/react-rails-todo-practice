@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  text: 勉強をする
+
+two:
+  id: 2
+  text: 遊ぶ
+
+three:
+  id: 3
+  text: 本を読む
