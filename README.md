@@ -1,0 +1,2 @@
+# react-rails-todo-practice
+基本的なCRUDのみを実装してどのようにReactとRailsがやり取りするのかを実装しながら学んでみる。
