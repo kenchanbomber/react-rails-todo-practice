@@ -1,14 +1,11 @@
 import axios from 'axios';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { TodoItem } from './components/molecules/TodoItem';
+import { InputArea } from './components/organizms/InputArea ';
+import { TodoList } from './components/organizms/TodoList';
+import { Todo } from './types/todo';
 
 function App() {
-
-  type Todo = {
-      id: number;
-      text: string;
-      created_at: string;
-      updated_at: string;
-  }
 
   // 初回ロード時にTODOリストを更新
   useEffect(() => fetchTodos(), [])
@@ -17,16 +14,15 @@ function App() {
   const [inputText, setInputText] = useState('');
   const onChangeInputText = (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
 
-  // TODOの更新内容を入力
-
   // TODOをステートで持つ
   const [todos, setTodos] = useState<Array<Todo>>([]);
+
 
   // TODOを取得する
   const fetchTodos = () => {
     axios.get('http://localhost:3000/todos').then((res) => {
       const newTodos = res.data;
-      console.log(newTodos);
+      console.log('fetchtodos');
       setTodos(newTodos);
     }).catch((error) => {
       console.log(error);
@@ -39,41 +35,24 @@ function App() {
   const onClickAdd = () => {
     const newTodo = { todo: { text: inputText } };
     axios.post('http://localhost:3000/todos/', newTodo).then((res) => {
-      setTodos(res.data)
-      setInputText('')
+      setTodos([...todos, res.data]);
+      setInputText('');
     }).catch((error) => {
       console.log(error);
     }).finally(() => {
-      console.log('finish post')
-    });
-  }
-
-  // TODO完了
-  const onClickDo = (id: number) => {
-    axios.delete(`http://localhost:3000/todos/${id}`).then((res) => {
-      setTodos(res.data);
-    }).catch((error) => {
-      console.log(error);
-    }).finally(() => {
-      console.log('finish');
+      console.log('finish post');
     });
   }
   return (
     <div className="App">
+      <InputArea onClickAdd={onClickAdd} onChangeInputText={onChangeInputText} inputText={inputText} />
       <div>
-        <input type="text" value={inputText} onChange={onChangeInputText} />
-        <button onClick={onClickAdd}>作成</button>
-      </div>
-      <div>
-        <ul>
+        <TodoList>
           {todos.map((todo, index) => (
-            <li key={index}>
-              <input type="text" value={todo.text} />
-              <button>変更</button>
-              <button onClick={() => onClickDo(todo.id)}>完了</button>
-          </li>
+            <TodoItem todos={todos} index={index} key={index} todo={todo} setTodos={setTodos} />
           ))}
-        </ul>
+          {console.log('list')}
+        </TodoList>
       </div>
     </div>
   );

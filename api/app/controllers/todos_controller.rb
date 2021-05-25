@@ -7,7 +7,7 @@ class TodosController < ApplicationController
   def create
     @todo = Todo.new(todo_params)
     if @todo.save
-      render json: Todo.all
+      render json: @todo
     else
     end
   end
@@ -23,7 +23,7 @@ class TodosController < ApplicationController
   def destroy
     @todo = Todo.find(params[:id])
     if @todo.destroy
-      render json: Todo.all
+      head :no_content, status: :ok
     else
     end
   end
