@@ -1,2 +1,4 @@
 # react-rails-todo-practice
-基本的なCRUDのみを実装してどのようにReactとRailsがやり取りするのかを調べながら実装してみる。
+
+Railsのapiモードを使ってみる。
+React, Rails, Postgres, Dockerなど。
